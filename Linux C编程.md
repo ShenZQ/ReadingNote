@@ -151,9 +151,7 @@ struct timezone {
   ```
   让人没想到的是，这个函数不在`unistd.h`中，而是在`sys/stat.h`中。但这个头文件的注释是这样的
   ```c
-  /*
-  *	POSIX Standard: 5.6 File Characteristics	<sys/stat.h>
-  */
+  /* POSIX Standard: 5.6 File Characteristics	<sys/stat.h> */
   ```
   > `mode`参数与文件操作函数的mode是相同的意义，但要注意，对目录来说**最少要设置一个执行权限位**以允许用户访问该目录中的文件。  
   `pathname`指定的新目录的父目录必须存在，并且没有权限问题，否则创建失败，返回`-1`。
