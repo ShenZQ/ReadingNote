@@ -3,6 +3,7 @@
 - [时间处理](#%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86)
 - [内存分配](#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D)
 - [文件操作（非缓冲）](#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E9%9D%9E%E7%BC%93%E5%86%B2)
+    - [关于几个数据类型:](#%E5%85%B3%E4%BA%8E%E5%87%A0%E4%B8%AA%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B)
 - [目录操作](#%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C)
 - [文件属性](#%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7)
 - [学习中写的代码](#%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%86%99%E7%9A%84%E4%BB%A3%E7%A0%81)
@@ -134,13 +135,13 @@ struct timezone {
     > * ` SEEK_CUR  -- Current position of file`  
     > * ` SEEK_END  -- End of file`  
 
-> **关于几个数据类型** :  
-> | 类型 | 定义 |  
-> |:----|:----|  
-> | size_t|typedef unsigned long |  
-> | ssize_t|typedef signed long   |  
-> | off_t  |typedef signed long   |  
-> | mode_t |typedef unsigned int  |  
+### 关于几个数据类型:  
+ | 类型 | 定义 |  
+ |:----|:----|  
+ | size_t|typedef unsigned long |  
+ | ssize_t|typedef signed long   |  
+ | off_t  |typedef signed long   |  
+ | mode_t |typedef unsigned int  |  
 
 # 目录操作
 * 创建目录`mkdir()`
