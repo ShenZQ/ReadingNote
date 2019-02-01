@@ -261,6 +261,59 @@ struct timezone {
   #define S_ISSOCK(mode)   __S_ISTYPE((mode), __S_IFSOCK)
   ```
   > 获取到文件属性存入sbuf后，可以使用宏来判定其类型，如`S_ISDIR(sbuf->st_mode)`判断它是否是目录文件，或者用`sbuf->st_mode & S_IFMT`，看其结果是哪一个（`S_IFDIR`、`S_IFCHR`、`S_IFBLK`、`S_IFREG`、`S_IFIFO`、`S_IFLINK`、`S_IFSOCK`）。
+* 关于文件的时间信息  
+  在`struct stat`中有三个表示时间的字段`st_atim`、`st_mtim`、`st_ctim`
+  ```c
+  struct timespec st_atim;  /* Time of last access */
+  struct timespec st_mtim;  /* Time of last modification */
+  struct timespec st_ctim;  /* Time of last status change */
+  #define st_atime st_atim.tv_sec      /* Backward compatibility */
+  #define st_mtime st_mtim.tv_sec
+  #define st_ctime st_ctim.tv_sec
+  ```
+  > 为了兼容性，又分别定义了`st_atime`、`st_mtime`、`st_ctime`，这三个是对应的`struct timespec`中的`tv_sec`段，是`time_t`类型的值，表示以秒为单位的国际时间。   
+  
+  可以用`utime()`函数来修改文件的最后访问时间（`Time of last acess`）和最后修改时间（`Time of last modification`），最后状态改变时间不能修改，这个是由系统维护的。
+  ```c
+  #include <utime.h>
+  int utime (const char *pathname, const struct utimbuf *file_times)
+  ```
+  `struct utimebuf`定义如下：
+  ```c
+  struct utimbuf
+  {
+    time_t actime;		/* Access time.  */
+    time_t modtime;		/* Modification time.  */
+  };
+  ```
+  如果传入的`file_times`指针为空，则把文件的`st_atime`和`st_mtime`修改为系统当前时间，且进程必须拥有该文件的写权限。如果`file_times`指针不为空，则把文件的`actime`和`modtime`修改为它指定的时间，此时进程的用户`ID`必须是文件的属主，或是超级进程（`root`）。
+* 文件的权限  
+  每个文件有三组权限，分别对应属主、属主所在的组和其他人，权限包括读、写和运行。  
+  * `access()`函数，测试进程是否对文件有相关权限很重要，可以避免无权限操作而出错，这也是逻辑上的一种严谨。测试通过，`access()`则返回`0`，不通过则返回`-1`。  
+    ```c
+    #include <unistd.h>
+    int access(const char *pathname, int mode)
+    ```
+    > mode的取值可以是以下四种之一：
+    > * `R_OK`      检验调用进程是否有读权限
+    > * `W_OK`      检验调用进程是否有写权限 
+    > * `X_OK`      检验调用进程是否有执行权限
+    > * `F_OK`      检验指定的文件是否存在    
+  * `umask()`函数，用来设置文件创建的权限屏蔽字
+    ```c
+    #include <sys/stat.h>
+    mode_t umask(mode_t cmask)
+    ```
+    > `cmask`的每一位意义与`st_mode`是一样的，不同的是，当它的某一位设置为`0`时，表示`open()`、`create()`函数建立的文件可以设置相应的权限，为`1`时，表示不可以拥有相应的权限。比如，`cmask`为`007`（即其他人的读写执行权限位为`1`）时，新建的文件则不能设置其他人的读写执行权限。  
+    函数返回修改之前的权限屏蔽字。
+  * `chmod()`和`fchmode()`函数，用来改变文件的权限
+    ```c
+    #include <sys/stat.h>
+    int chmode(const char *pathname, mode_t mode);
+    int fchmode(int fd, mode_mode);
+    ```
+    >
+
 
 
 
