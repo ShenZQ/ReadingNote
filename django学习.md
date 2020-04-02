@@ -22,3 +22,7 @@ pip install django -i https://mirrors.aliyun.com/pypi/simple
 ```
 
 ## 创建项目
+```
+django-admin startproject projectName
+```
+> 这个命令会自动创建一个名为`projectName`的目录，作为项目所在地，这个名字可以随便改的
