@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>It's a test.</title>
+    <style>
+        .canl {
+            width: 210px;
+            border: 1px solid gray;
+            border-radius: 3px;
+            font-size: 0.8em;
+            box-shadow: 3px 3px 3px gray;
+        }
+
+        .canl span {
+            padding: 3px;
+        }
+
+        .canl-header {
+            padding: 5px;
+            display: flex;
+            background-color: #F11;
+            color: white;
+            align-items: baseline;
+            width: 200px;
+            font-weight: bold;
+        }
+
+        .year {
+            flex-grow: 2;
+            text-align: right;
+        }
+
+        .month {
+            flex-grow: 2;
+            text-align: left;   
+        }
+        .prevYear,
+        .prevMonth,
+        .nextYear,
+        .nextMonth{
+            cursor: pointer;
+            color: black;
+        }
+        .weekTitle,
+        .dateRow {
+            display: flex;
+            padding: 1px 5px;
+        }
+
+        .weekTitle>div {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-bottom: 1px solid #e0dada;
+        }
+
+        .dateRow>div {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .otherMonth{
+            color: gray;
+        }
+        .today{
+            border-radius: 50%;
+            background-color: #F11;
+            color: white;
+        }
+        .selected{
+            border-radius: 50%;
+            background-color: #745ec5;
+            color: yellow;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class='canl'>
+        <div class="canl-header">
+            <span class="prevYear">&lt;&lt;</span>
+            <span class="prevMonth">&lt;</span>
+            <span class="year">2018年</span>
+            <span class="month">2月</span>
+            <span class="nextMonth">&gt;</span>
+            <span class="nextYear">&gt;&gt;</span>
+        </div>
+        <div class="canl-body">
+            <div class="weekTitle">
+                <div>日</div>
+                <div>一</div>
+                <div>二</div>
+                <div>三</div>
+                <div>四</div>
+                <div>五</div>
+                <div>六</div>
+            </div>
+            <div class="date">
+
+            </div>
+        </div>
+    </div>
+    <h1 id="selectedDate"></h1>
+</body>
+<script>
+    ; (function () {
+
+        Date.prototype.offsetDays = function (offset) {
+            return new Date(this.getTime() + offset * 86400000);
+        }
+
+        let today = new Date();
+        let selectedDay = new Date();
+        let currentYear = selectedDay.getFullYear();
+        let currentMonth = selectedDay.getMonth();
+        // let currentDate = selectedDay.getDate();
+
+        function pad(v, l) {
+            if (!l) l = 2;
+            v = String(v);
+            while (v.length < l) v = '0' + v;
+            return v;
+        }
+
+        function dayClick(e){
+            selectedDay = new Date(e.target.getAttribute('value'));
+            currentYear = selectedDay.getFullYear();
+            currentMonth = selectedDay.getMonth();
+            // currentDate = selectedDay.getDate();   
+            refreshCanl();         
+            document.getElementById('selectedDate').innerText = e.target.getAttribute('value');
+        }
+
+        function refreshCanl() {
+            document.querySelector('.canl-header > span.year').innerText = currentYear + '年';
+            document.querySelector('.canl-header > span.month').innerText = (currentMonth + 1) + '月';
+            let date = document.querySelector('.canl-body > div.date');
+            while (date.children.length > 0)
+                date.removeChild(date.children[0]);
+            let firstDate = new Date(currentYear, currentMonth, 1);
+            let lastDate = new Date(currentYear, currentMonth + 1, 1).offsetDays(-1);
+            let offset = firstDate.getDay() % 7;
+            let startDate = firstDate.offsetDays(-offset);
+            let totalDays = (lastDate - startDate) / 86400000 + 1;
+            let rows = Math.ceil(totalDays / 7);
+            let day = startDate;
+            for (let i = 0; i < rows; i++) {
+                let daterow = document.createElement('div');
+                daterow.setAttribute('class', 'dateRow');
+                for (let j = 0; j < 7; j++) {
+                    let dateel = document.createElement('div');
+                    dateel.setAttribute('value', day.toLocaleDateString());
+                    if(day.getMonth() !== currentMonth) dateel.setAttribute('class','otherMonth');
+                    if(day.getMonth() === today.getMonth() && day.getFullYear() === today.getFullYear() && day.getDate() === today.getDate()) dateel.setAttribute('class','today');
+                    if(day.getMonth() === selectedDay.getMonth() && day.getFullYear() === selectedDay.getFullYear() && day.getDate() === selectedDay.getDate()) dateel.setAttribute('class','selected');
+                    dateel.appendChild(document.createTextNode(pad(day.getDate())));
+                    dateel.onclick = dayClick;
+                    daterow.appendChild(dateel);
+                    day = day.offsetDays(1);
+                }
+                date.appendChild(daterow);
+            }
+        }
+
+        document.querySelector('.canl-header > span.prevYear').onclick = () => {
+            currentYear -= 1;
+            refreshCanl();
+        }
+
+        document.querySelector('.canl-header > span.prevMonth').onclick = () => {
+            currentMonth -= 1;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear -= 1;
+            }
+            refreshCanl();
+        }
+
+        document.querySelector('.canl-header > span.nextYear').onclick = () => {
+            currentYear += 1;
+            refreshCanl();
+        }
+
+        document.querySelector('.canl-header > span.nextMonth').onclick = () => {
+            currentMonth += 1;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear += 1;
+            }
+            refreshCanl();
+        }
+
+        refreshCanl();
+    })();  
+</script>
+
+</html>
