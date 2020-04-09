@@ -1,0 +1,39 @@
+<h2 id="_1">准备工作</h2>
+<h4 id="virtualenv">安装<code>virtualenv</code></h4>
+<p>安装这个东东是主要目的，是防止与其他项目的依赖包发生版本冲突  </p>
+<pre class="codehilite"><code class="language-shell"> pip install virtualenv -i https://mirrors.aliyun.com/pypi/simple</code></pre>
+
+
+<blockquote>
+<p>安装过程中曾经踫到依赖包<code>filelock</code>更新出错，系统表示无法卸载老的版本，也就无法安装新的版本，进而导致<code>virtualenv</code>安装失败，解决办法： <br />
+<code>shell
+pip install filelock --upgrade --ingore-installed filelock</code></p>
+</blockquote>
+<h4 id="_2">创建虚拟环境</h4>
+<pre class="codehilite"><code class="language-shell">mkdir djangoProjects
+cd djangoProjects
+virtualenv django</code></pre>
+
+
+<h3 id="django">安装<code>django</code></h3>
+<pre class="codehilite"><code>pip install django -i https://mirrors.aliyun.com/pypi/simple</code></pre>
+
+
+<h2 id="_3">创建项目</h2>
+<pre class="codehilite"><code>django-admin startproject projectName</code></pre>
+
+
+<blockquote>
+<p>这个命令会自动创建一个名为<code>projectName</code>的目录，作为项目所在地，这个名字可以随便改的，在项目的<code>settings.py</code>中会生成一个<code>BASE_DIR</code>指向项目目录。在这个目录下，还会再生成一个名为<code>projectName</code>的目录，里面有项目的设置、路径解析等模块。项目目录下还会生成一个<code>manage.py</code>的文件，这个文件在后面用于创建应用、迁移数据库、启动服务等。</p>
+</blockquote>
+<h2 id="_4">创建应用</h2>
+<p>在<code>manage.py</code>同目录下，用以下命令创建新的应用</p>
+<pre class="codehilite"><code>python manage.py startapp appName</code></pre>
+
+
+<blockquote>
+<p>这个命令会自动创建一个名为<code>projectName</code>的目录，作为项目所在地，这个名字可以随便改的，在项目的<code>settings.py</code>中会生成一个<code>BASE_DIR</code>指向项目目录。在这个目录下，还会再生成一个名为<code>projectName</code>的目录，里面有项目的设置、路径解析等模块。项目目录下还会生成一个<code>manage.py</code>的文件，这个文件在后面用于创建应用、迁移数据库、启动服务等。</p>
+</blockquote>
+<h2 id="_5">创建应用</h2>
+<p>在<code>manage.py</code>同目录下，用以下命令创建新的应用</p>
+<pre class="codehilite"><code>python manage.py startapp appName</code></pre>

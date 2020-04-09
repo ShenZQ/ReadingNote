@@ -40,33 +40,38 @@
     </nav>
 
     <!-- 页面主体-->
-  <div class="container">
-      <!-- 左侧内容-->
-    <div class="col-xs-12 col-md-9">
-        <div class="panel panel-primary">
-            <div class="panel-heading">首页</div>
-            <div class="panel-body">
+    <div class="container">
+        <!-- 左侧内容-->
+        <div class="col-xs-12 col-md-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">首页</div>
+                <div class="panel-body">
 
-            </div>
-        </div>
-    </div>
-    <!-- 右侧简介及分类、归档-->
-    <div class="col-xs-12 col-md-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">我是谁</div>
-            <div class="panel-body">
-               <div class="thumbnail">
-                    <img src="avatar.jpg" class="img-circle" >
                 </div>
-                <h4>爱玩的江南</h4>
-                <p>email: a@163.com</p>
-                <p>发表文章：42</p>
-                <p>获得评论：35</p>
+            </div>
+        </div>
+        <!-- 右侧简介及分类、归档-->
+        <div class="col-xs-12 col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">我是谁</div>
+                <div class="panel-body">
+                <div class="thumbnail" style="border: none;">
+                        <img src="avatar.jpg" class="img-circle" >
+                    </div>
+                    <h4>爱玩的江南</h4>
+                    <p>email: a@163.com</p>
+                    <p>发表文章：42</p>
+                    <p>获得评论：35</p>
+                    <p id="marked"></p>
+                </div>
             </div>
         </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" ></script>
+    <script>
+        document.getElementById('marked').innerHTML = marked(" ### Head\n  aasdfkjl\n asdlkfj;length\n### First\nalskdf;lska\nasdflkj;sdflkj\n")
+    </script>
 </body>
 </html>
