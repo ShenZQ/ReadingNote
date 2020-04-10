@@ -11,6 +11,7 @@
     <style>
         body {
             padding-top: 70px;
+            /* background-color: pink; */
         }
     </style>
 </head>
@@ -44,14 +45,15 @@
     <div class="container">
         <!-- 左侧内容-->
         <div class="col-xs-12 col-md-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">首页</div>
-                <div class="panel-body">
+            <div class="panel panel-primary"style="background-color: transparent;" >
+                <div class="panel-heading">归档</div>
+                <div class="panel-body" >
+                    <br>
                     <div class="post-list">
-                        <divl class="post-list-group"> 张三</divl>
-                        <article class="post-list-item">试试看1</article>
-                        <article class="post-list-item">试试看2</article>
-                        <article class="post-list-item">试试看3</article>
+                        <divl class="post-list-group"><em>2020年</em></divl>
+                        <article class="post-list-item">git rev-list --left-right master...refs/remotes/origin/master</article>
+                        <article class="post-list-item"> git push origin master:master</article>
+                        <article class="post-list-item">请确认您有正确的访问权限并且仓库存在。</article>
 
 
 
@@ -65,7 +67,7 @@
         <!-- 右侧简介及分类、归档-->
         <div class="col-xs-12 col-md-3">
             <div class="panel panel-primary">
-                <div class="panel-heading">我是谁</div>
+                <div class="panel-heading">博主简介</div>
                 <div class="panel-body">
                 <div class="thumbnail" style="border: none;">
                         <img src="avatar.jpg" class="img-circle" >
@@ -74,7 +76,16 @@
                     <p>email: a@163.com</p>
                     <p>发表文章：42</p>
                     <p>获得评论：35</p>
-                    <p id="marked"></p>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">文章分类</div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Linux运维(10)</li>
+                        <li>Python(15)</li>
+                        <li>JavaScript(23)</li>
+                    </ul>
                 </div>
             </div>
         </div>
