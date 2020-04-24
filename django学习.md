@@ -79,3 +79,4 @@ python manage.py startapp appName
         ```
         <link rel="stylesheet" href="{% static 'css/post.css' %}">
         ```
+        
