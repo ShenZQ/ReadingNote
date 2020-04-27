@@ -80,3 +80,35 @@ python manage.py startapp appName
         <link rel="stylesheet" href="{% static 'css/post.css' %}">
         ```
         
+## 让`django`的后台管理拥有`Markdown`编辑功能
+* 安装`django-mdeditor`包
+    ```
+    pip install django-mdeditor
+    ```
+* 注册`INSTALLED_APPS`，在`settings.py`的`INSTALLED_APPS`列表中增加`mdeditor`
+* 在`settings.py`的最后面增加下面两行，配置相关的路径
+    ```
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+    MEDIA_URL = '/media/'
+    ```
+* 在项目的`urls.py`中导入下面两个包
+    ```
+    from django.conf.urls.static import static
+    from django.conf import settings
+    ```
+* 在项目的`urls.py`中配置`url`
+    ```
+    urlspatterns = [
+        ....
+        path('mdeditor', include('mdeditor.urls')),
+        ....
+    ]
+    ```
+* 在项目的`urls.py`的最后增加如下语句
+    ```
+    if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    ```
+* 在应用的`models`中引入包`from mdeditor.fields import MDTextField`
+* 把需要保存`Markdown`的字段声明为`MDTextField`
+  
