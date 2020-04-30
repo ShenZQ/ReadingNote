@@ -112,3 +112,27 @@ python manage.py startapp appName
 * 在应用的`models`中引入包`from mdeditor.fields import MDTextField`
 * 把需要保存`Markdown`的字段声明为`MDTextField`
   
+
+## 关于Django3使用MySQL数据库存储emoji字符的问题
+问题来由，由于`utf8`最多只能存储3个字节的编码，而emoji字符需要4个字节，所以数据库要做用`utf8mb4`的字符集。
+创建数据库时使用`CREATE DATABASE db_name CHARACTER SET uft8mb4;`，如果数据库已建好，就要对库和存储emoji字符的表做修改。
+```
+ALTER DATABASE db_name CONVERT TO CHARACTER SET utf8mb4;
+ALTER TABLE tb_name CHARACTER SET utf8mb4;
+```
+做到这里还不行，因为Django3使用MySQL时默认使用`utf8`。还要在`settings.py`中做一修改：
+```
+DATABASES = {
+    'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'myblog',
+        'USER': 'root',
+        'PASSWORD': 'Angel@2005',
+        'HOST': '127.0.0.1',
+        'PORT': '8033',
+        'OPTIONS': {'charset': 'utf8mb4' },                 #关键是这个charset设置，一定要放到OPTIONS中。
+    }
+}
+```
